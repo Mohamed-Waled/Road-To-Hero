@@ -21,22 +21,24 @@ function Header() {
 
   return (
     <>
-      <header className="fixed left-0 top-0 flex w-full items-center justify-between bg-gray-700 p-4 shadow-lg lg:left-1/2 lg:top-4 lg:w-[calc(100%-40px)] lg:-translate-x-1/2 lg:rounded-3xl">
-        <div
-          onClick={() => {
-            setIsOpen((prev) => !prev);
-          }}
-          className="lg:hidden"
-        >
-          {isOpen ? (
-            <GoSidebarExpand className="text-2xl text-white shadow-lg" />
-          ) : (
-            <GoSidebarCollapse className="text-2xl text-white shadow-lg" />
-          )}
-        </div>
-        <Logo />
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-discord/50 shadow-lg">
-          <FaDiscord className="text-2xl text-white" />
+      <header className="lg:fixed lg:left-0 lg:top-0 lg:h-[115px] lg:w-full lg:bg-gray-800">
+        <div className="fixed left-0 top-0 flex w-full items-center justify-between bg-gray-700 p-4 shadow-lg lg:left-1/2 lg:top-4 lg:w-[calc(100%-40px)] lg:-translate-x-1/2 lg:rounded-3xl">
+          <div
+            onClick={() => {
+              setIsOpen((prev) => !prev);
+            }}
+            className="lg:hidden"
+          >
+            {isOpen ? (
+              <GoSidebarExpand className="text-2xl text-white shadow-lg" />
+            ) : (
+              <GoSidebarCollapse className="text-2xl text-white shadow-lg" />
+            )}
+          </div>
+          <Logo />
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-discord/50 shadow-lg">
+            <FaDiscord className="text-2xl text-white" />
+          </div>
         </div>
       </header>
       <nav

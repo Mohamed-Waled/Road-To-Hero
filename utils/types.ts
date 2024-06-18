@@ -55,3 +55,17 @@ export type parts = {
   authorName: string;
   createdAt: number;
 };
+
+export type read_story_arcs = {
+  arc: number;
+  chapters: read_story_chapters[];
+};
+
+export type read_story_chapters = {
+  chapter: number;
+  parts: read_story_part[];
+};
+
+export type read_story_part = {
+  part: number;
+};

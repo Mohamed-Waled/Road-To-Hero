@@ -1,6 +1,6 @@
 import PartsComponent from "@/components/parts/PartsComponent";
 
-function Parts({
+function ReworkedParts({
   params,
 }: {
   params: { arc: string; chapter: string; part: string };
@@ -8,7 +8,7 @@ function Parts({
   return (
     <>
       <PartsComponent
-        type="story-chapters"
+        type="reworked-story-chapters"
         arcNumber={Number(params.arc.split("-")[1])}
         chapterNumber={Number(params.chapter.split("-")[1])}
         partNumber={Number(params.part.split("-")[1])}
@@ -17,4 +17,4 @@ function Parts({
   );
 }
 
-export default Parts;
+export default ReworkedParts;

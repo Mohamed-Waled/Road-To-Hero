@@ -3,10 +3,11 @@ import Link from "next/link";
 
 import { getArcs } from "@/lib/fetchers";
 import { story_chapters } from "@/utils/types";
+import { getCurrentTimeStamp } from "@/utils/helperFunctions";
 import BreadCrumb from "@/helper_components/bread-crumb/BreadCrumb";
 
-async function StoryChaptersComponents() {
-  const arcs = await getArcs();
+async function StoryChaptersComponents({ type }: { type: string }) {
+  const arcs = await getArcs(type);
 
   return (
     <>
@@ -17,14 +18,23 @@ async function StoryChaptersComponents() {
             return (
               <Link
                 key={arc.arc}
-                href={`/story-chapters/arc-${index + 1}`}
-                className="flex h-36 w-full flex-col items-center justify-between rounded-lg bg-gray-700 p-4 text-gray-200 shadow-xl sm:w-[calc(50%-12px)] xl:w-[calc((100%/3)-16px)]"
+                href={`/${type.split("-")[0]}-chapters/arc-${index + 1}`}
+                className="relative flex h-36 w-full flex-col items-center justify-between rounded-lg bg-gray-700 p-4 text-gray-200 shadow-xl sm:w-[calc(50%-12px)] xl:w-[calc((100%/3)-16px)]"
               >
                 <h2 className="p-7 text-2xl">{arc.arc}</h2>
                 <div className="flex w-full items-center justify-center p-1">
                   <IoBook className="mr-2 text-xl text-discord" />
                   <p>{`Chapters: ${arc.chapters.length}`}</p>
                 </div>
+                {getCurrentTimeStamp() -
+                  arc.chapters[arc.chapters.length - 1].parts[
+                    arc.chapters[arc.chapters.length - 1].parts.length - 1
+                  ].createdAt <=
+                  604800000 && (
+                  <span className="absolute bottom-3 left-3 rounded-xl bg-discord/50 px-2 py-1 text-sm text-white">
+                    New
+                  </span>
+                )}
               </Link>
             );
           })}

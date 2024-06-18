@@ -1,23 +1,19 @@
-import Image from "next/image";
-
 import gojo from "@/public/images/gojo.jpeg";
+import MemesComponent from "@/components/memes/MemesComponent";
 
 function notFound() {
   return (
     <>
-      <div className="mt-[100px] flex w-full justify-center md:mt-0">
-        <div className="flex flex-col items-center lg:w-11/12 xl:w-9/12 2xl:w-7/12">
-          <div className="text-center text-gray-300 lg:text-2xl">
+      <MemesComponent
+        image={gojo}
+        alt={"The body of died Gojo Saturo as an error image"}
+        content={
+          <>
             <p>404! Sorry we couldn't find this page.</p>
             <p>Make sure that the URL is correct</p>
-          </div>
-          <Image
-            src={gojo}
-            alt="The body of died Gojo Saturo as an error image"
-            className="m-w-full mt-5 rounded-3xl object-cover"
-          />
-        </div>
-      </div>
+          </>
+        }
+      />
     </>
   );
 }

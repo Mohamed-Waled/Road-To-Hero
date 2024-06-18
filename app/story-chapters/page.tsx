@@ -3,7 +3,7 @@ import StoryChaptersComponents from "@/components/story-chapters/StoryChaptersCo
 function StoryChapters() {
   return (
     <>
-      <StoryChaptersComponents />
+      <StoryChaptersComponents type="story-chapters" />
     </>
   );
 }

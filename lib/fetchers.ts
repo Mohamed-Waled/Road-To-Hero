@@ -1,9 +1,7 @@
-import { story_chapters } from "@/utils/types";
-
-export async function fetchNovel() {
+export async function fetchNovel(type: string) {
   try {
     const response = await fetch(
-      "https://road-to-hero-bot.onrender.com/story-chapters-modified",
+      `https://road-to-hero-bot.onrender.com/${type}-modified`,
       {
         method: "GET",
         headers: {
@@ -25,20 +23,20 @@ export async function fetchNovel() {
   }
 }
 
-export async function getArcsNumber() {
-  const arcs = await fetchNovel();
+export async function getArcsNumber(type: string) {
+  const arcs = await fetchNovel(type);
 
   return arcs.length;
 }
 
-export async function getArcs() {
-  const arcs = await fetchNovel();
+export async function getArcs(type: string) {
+  const arcs = await fetchNovel(type);
 
   return arcs;
 }
 
-export async function getChaptersNumber(arc: number) {
-  const chapters = await fetchNovel();
+export async function getChaptersNumber(type: string, arc: number) {
+  const chapters = await fetchNovel(type);
 
   return chapters[arc].chapters.length;
 }

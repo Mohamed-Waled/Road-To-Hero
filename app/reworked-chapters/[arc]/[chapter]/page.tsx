@@ -1,10 +1,14 @@
 import ChaptersComponent from "@/components/chapters/ChaptersComponent";
 
-function Chapters({ params }: { params: { arc: string; chapter: string } }) {
+function ReworkedChapters({
+  params,
+}: {
+  params: { arc: string; chapter: string };
+}) {
   return (
     <>
       <ChaptersComponent
-        type="story-chapters"
+        type="reworked-story-chapters"
         arcNumber={Number(params.arc.split("-")[1])}
         chapterNumber={Number(params.chapter.split("-")[1])}
       />
@@ -12,4 +16,4 @@ function Chapters({ params }: { params: { arc: string; chapter: string } }) {
   );
 }
 
-export default Chapters;
+export default ReworkedChapters;
