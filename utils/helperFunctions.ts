@@ -1,43 +1,23 @@
-import {
-  chapters,
-  parts,
-  story_chapters,
-  story_chapters_modified,
-} from "./types";
+export function getTimeAndDate(timeStamp: number) {
+  let dateObject = new Date(timeStamp);
 
-export function manipulateData(storyChapters: story_chapters[]): any {
-  let story_chapters_modified: story_chapters_modified[] = [];
+  let year = dateObject.getFullYear();
+  let month = dateObject.getMonth() + 1;
+  let day = dateObject.getDate();
+  // let hours = dateObject.getHours();
+  // let minutes = dateObject.getMinutes();
 
-  let chapters: chapters[] = [];
+  return `${day.toString().padStart(2, "0")}-${month.toString().padStart(2, "0")}-${year}`;
+}
 
-  console.log(storyChapters);
+export function getCurrentYear() {
+  return new Date().getFullYear();
+}
 
-  storyChapters.forEach((arc) => {
-    arc.chapters.forEach((chapter) => {
-      let parts: parts[] = [];
+export function getCurrentTimeStamp() {
+  return Date.now();
+}
 
-      chapter.parts.forEach((part) => {
-        parts.push({
-          part: part.part,
-          chapterName: part.chapterName,
-          content: part.content,
-          author: part.author,
-          authorName: part.authorName,
-          createdAt: part.createdAt,
-          read: false,
-        });
-      });
-
-      chapters.push({
-        chapter: chapter.chapter,
-        parts: parts,
-      });
-    });
-    story_chapters_modified.push({
-      arc: arc.arc,
-      chapters: chapters,
-    });
-  });
-
-  return story_chapters_modified;
+export function capitalizeWordsRegex(text: string) {
+  return text.replace(/(^\w|\s\w)/g, (match) => match.toUpperCase());
 }

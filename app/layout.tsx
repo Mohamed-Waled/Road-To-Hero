@@ -1,3 +1,5 @@
+import NextTopLoader from "nextjs-toploader";
+
 import type { Metadata } from "next";
 import { cairo } from "@/utils/fonts";
 import MainContainer from "@/components/layout/MainContainer";
@@ -16,7 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${cairo.className} bg-gray-800`}>
-        <MainContainer>{children}</MainContainer>
+        <MainContainer>
+          <NextTopLoader color="#7289da" height={4} showSpinner={false} />
+          {children}
+        </MainContainer>
       </body>
     </html>
   );

@@ -2,6 +2,7 @@
 
 import { useState, RefObject } from "react";
 import { GoSidebarCollapse, GoSidebarExpand } from "react-icons/go";
+import { FaBookBookmark, FaBookMedical } from "react-icons/fa6";
 import { FaDiscord } from "react-icons/fa";
 import Link from "next/link";
 
@@ -45,18 +46,26 @@ function Header() {
       >
         <ul>
           <li
-            className="w-full overflow-hidden rounded bg-gray-500 text-center text-gray-100 transition-all duration-300 hover:bg-gray-600 active:bg-gray-700"
+            className="w-full overflow-hidden rounded-lg text-center text-gray-100 transition-all duration-300 hover:bg-gray-700 active:bg-gray-800"
             ref={ref as RefObject<HTMLLIElement>}
           >
-            <Link href="" className="inline-block h-full w-full rounded p-3">
+            <Link
+              href="/story-chapters"
+              className="flex h-full w-full items-center gap-2 rounded p-3 text-lg"
+            >
+              <FaBookBookmark className="text-lg text-discord" />
               Story Chapters
             </Link>
           </li>
           <li
-            className="mt-4 w-full overflow-hidden rounded bg-gray-500 text-center text-gray-100 transition-all duration-300 hover:bg-gray-600 active:bg-gray-700"
+            className="mt-4 w-full overflow-hidden rounded-lg text-center text-gray-100 transition-all duration-300 hover:bg-gray-700 active:bg-gray-800"
             ref={ref2 as RefObject<HTMLLIElement>}
           >
-            <Link href="" className="inline-block h-full w-full rounded p-3">
+            <Link
+              href="/reworked-chapters"
+              className="flex h-full w-full items-center gap-2 rounded p-3 text-lg"
+            >
+              <FaBookMedical className="text-lg text-discord" />
               Reworked Chapters
             </Link>
           </li>

@@ -1,7 +1,11 @@
 function loading() {
   return (
-    <p>Loading ...</p>
-  )
+    <>
+      <div className="border text-3xl text-gray-200">
+        <p>Loading ...</p>
+      </div>
+    </>
+  );
 }
 
-export default loading
+export default loading;

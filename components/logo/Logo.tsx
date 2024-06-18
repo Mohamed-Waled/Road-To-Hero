@@ -1,11 +1,12 @@
 import Image from "next/image";
-import logo from "@/public/images/cd403853ff115ea7a81e07aed6fe8158.png";
+import logo from "@/public/images/logo.png";
 import { raleway } from "@/utils/fonts";
+import Link from "next/link";
 
 function Logo() {
   return (
     <>
-      <div className="flex w-fit items-center justify-center">
+      <Link href="/" className="flex w-fit items-center justify-center">
         <span
           className={`${raleway.className} text-xl font-semibold tracking-wider text-gray-200`}
         >
@@ -22,7 +23,7 @@ function Logo() {
         >
           Hero
         </span>
-      </div>
+      </Link>
     </>
   );
 }
