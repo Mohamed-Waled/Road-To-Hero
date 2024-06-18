@@ -4,7 +4,7 @@ import { raleway } from "@/utils/fonts";
 import { getArcsNumber } from "@/lib/fetchers";
 
 async function HomeComponent() {
-  const arcsNumber = await getArcsNumber();
+  const arcsNumber = await getArcsNumber("story-chapters");
 
   return (
     <div className="flex min-h-[calc(100vh-150px)] w-full items-center justify-center text-gray-200 lg:min-h-[calc(100vh-250px)]">
