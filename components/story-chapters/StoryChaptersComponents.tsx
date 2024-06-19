@@ -18,7 +18,7 @@ async function StoryChaptersComponents({ type }: { type: string }) {
           {arcs.map((arc: story_chapters, index: number) => {
             return (
               <Link
-                key={arc.arc}
+                key={`${arc.arc} - ${index}`}
                 href={`/${type.split("-")[0]}-chapters/arc-${index + 1}`}
                 className="relative flex h-36 w-full flex-col items-center justify-between rounded-lg bg-gray-700 p-4 text-gray-200 shadow-xl sm:w-[calc(50%-12px)] xl:w-[calc((100%/3)-16px)]"
               >

@@ -63,9 +63,9 @@ async function PartsComponent({
                   partNumber - 1
                 ].content
                   .split(" ,")
-                  .map((lines: string) => {
+                  .map((lines: string, index: number) => {
                     return (
-                      <p key={lines} className="mb-2">
+                      <p key={`${lines} - ${index}`} className="mb-2">
                         {lines}
                       </p>
                     );
@@ -75,7 +75,6 @@ async function PartsComponent({
                 ].content
                   .flat()
                   .map((lines: string, index: number) => {
-                    console.log(lines);
                     return (
                       <p key={`${lines} - ${index}`} className="mb-2">
                         {lines}

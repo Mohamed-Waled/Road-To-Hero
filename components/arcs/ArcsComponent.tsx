@@ -35,7 +35,7 @@ async function ArcsComponent({
             (chapters: chapters, index: number) => {
               return (
                 <Link
-                  key={chapters.chapter}
+                  key={`${chapters.chapter} - ${index}`}
                   href={
                     chapters.parts.length < 2
                       ? `/${type.split("-")[0]}-chapters/arc-${arcNumber}/chapter-${index + 1}/part-1`
