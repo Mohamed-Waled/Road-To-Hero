@@ -64,6 +64,7 @@ async function ChaptersComponent({
                       arcNumber={arcNumber}
                       chapterNumber={chapterNumber}
                       partNumber={index + 1}
+                      type={type}
                     />
                   </span>
                 </Link>

@@ -40,6 +40,7 @@ async function StoryChaptersComponents({ type }: { type: string }) {
                   <Read
                     arcNumber={Number(arc.arc.split(" ")[1])}
                     totalChapters={arc.chapters.length}
+                    type={type}
                   />
                 </span>
               </Link>

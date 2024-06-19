@@ -64,6 +64,7 @@ async function ArcsComponent({
                       arcNumber={arcNumber}
                       chapterNumber={index + 1}
                       totalParts={chapters.parts.length}
+                      type={type}
                     />
                   </span>
                 </Link>

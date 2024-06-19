@@ -11,19 +11,21 @@ function Read({
   partNumber,
   totalParts,
   totalChapters,
+  type,
 }: {
   arcNumber: number;
   chapterNumber?: number;
   partNumber?: number;
   totalParts?: number;
   totalChapters?: number;
+  type: string;
 }) {
   const [read, setRead] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       let readStoryChapters: read_story_arcs[] = JSON.parse(
-        localStorage.getItem("story-chapters") ?? "[]",
+        localStorage.getItem(`${type.split("-")[0]}-chapters`) ?? "[]",
       );
       if (partNumber !== undefined) {
         readStoryChapters.forEach((arc) => {
