@@ -72,13 +72,16 @@ async function PartsComponent({
                   })
               : arcs[arcNumber - 1].chapters[chapterNumber - 1].parts[
                   partNumber - 1
-                ].content.map((lines: string, index: number) => {
-                  return (
-                    <p key={`${lines} - ${index}`} className="mb-2">
-                      {lines}
-                    </p>
-                  );
-                })}
+                ].content
+                  .flat()
+                  .map((lines: string, index: number) => {
+                    console.log(lines);
+                    return (
+                      <p key={`${lines} - ${index}`} className="mb-2">
+                        {lines}
+                      </p>
+                    );
+                  })}
           </div>
           <div className="mt-4 flex items-center justify-between p-2">
             <Link
