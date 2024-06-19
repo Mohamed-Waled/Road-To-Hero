@@ -1,5 +1,11 @@
 import MemesComponent from "@/components/memes/MemesComponent";
 import afterMeme from "@/public/memes/after-meme.png";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Road to Hero - After The End",
+  description: "After The End",
+};
 
 function AfterMeme() {
   return (

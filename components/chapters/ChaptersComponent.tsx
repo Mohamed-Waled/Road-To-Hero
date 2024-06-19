@@ -6,6 +6,7 @@ import { getArcs } from "@/lib/fetchers";
 import { parts } from "@/utils/types";
 import { getCurrentTimeStamp, getTimeAndDate } from "@/utils/helperFunctions";
 import BreadCrumb from "@/helper_components/bread-crumb/BreadCrumb";
+import Read from "@/helper_components/read/Read";
 
 async function ChaptersComponent({
   type,
@@ -40,7 +41,7 @@ async function ChaptersComponent({
             (parts: parts, index: number) => {
               return (
                 <Link
-                  key={parts.chapterName}
+                  key={`${parts.chapterName} - ${index}`}
                   href={`/${type.split("-")[0]}-chapters/arc-${arcNumber}/chapter-${chapterNumber}/part-${index + 1}`}
                   className="relative flex h-36 w-full flex-col items-center justify-between rounded-lg bg-gray-700 p-4 text-gray-200 shadow-xl sm:w-[calc(50%-12px)] xl:w-[calc((100%/3)-16px)]"
                 >
@@ -58,6 +59,13 @@ async function ChaptersComponent({
                       New
                     </span>
                   )}
+                  <span className="absolute right-[1rem] top-[44%] rounded-xl">
+                    <Read
+                      arcNumber={arcNumber}
+                      chapterNumber={chapterNumber}
+                      partNumber={index + 1}
+                    />
+                  </span>
                 </Link>
               );
             },

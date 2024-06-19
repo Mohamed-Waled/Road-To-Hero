@@ -6,6 +6,7 @@ import { getArcs } from "@/lib/fetchers";
 import { chapters } from "@/utils/types";
 import BreadCrumb from "@/helper_components/bread-crumb/BreadCrumb";
 import { getCurrentTimeStamp } from "@/utils/helperFunctions";
+import Read from "@/helper_components/read/Read";
 
 async function ArcsComponent({
   type,
@@ -58,6 +59,13 @@ async function ArcsComponent({
                       New
                     </span>
                   )}
+                  <span className="absolute right-[1rem] top-[44%] rounded-xl">
+                    <Read
+                      arcNumber={arcNumber}
+                      chapterNumber={index + 1}
+                      totalParts={chapters.parts.length}
+                    />
+                  </span>
                 </Link>
               );
             },

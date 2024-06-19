@@ -1,5 +1,10 @@
+import type { Metadata } from "next";
 import gojo from "@/public/images/gojo.jpeg";
 import MemesComponent from "@/components/memes/MemesComponent";
+
+export const metadata: Metadata = {
+  title: "Road to Hero - 404",
+};
 
 function notFound() {
   return (

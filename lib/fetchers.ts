@@ -1,4 +1,7 @@
+import { unstable_noStore } from "next/cache";
+
 export async function fetchNovel(type: string) {
+  unstable_noStore();
   try {
     const response = await fetch(
       `https://road-to-hero-bot.onrender.com/${type}-modified`,

@@ -1,5 +1,11 @@
 import MemesComponent from "@/components/memes/MemesComponent";
 import beforeMeme from "@/public/memes/before-meme.jpeg";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Road to Hero - Before The Start",
+  description: "Before The Start",
+};
 
 function BeforeMeme() {
   return (

@@ -5,6 +5,7 @@ import { getArcs } from "@/lib/fetchers";
 import { story_chapters } from "@/utils/types";
 import { getCurrentTimeStamp } from "@/utils/helperFunctions";
 import BreadCrumb from "@/helper_components/bread-crumb/BreadCrumb";
+import Read from "@/helper_components/read/Read";
 
 async function StoryChaptersComponents({ type }: { type: string }) {
   const arcs = await getArcs(type);
@@ -35,6 +36,12 @@ async function StoryChaptersComponents({ type }: { type: string }) {
                     New
                   </span>
                 )}
+                <span className="absolute right-[1rem] top-[44%] rounded-xl">
+                  <Read
+                    arcNumber={Number(arc.arc.split(" ")[1])}
+                    totalChapters={arc.chapters.length}
+                  />
+                </span>
               </Link>
             );
           })}
