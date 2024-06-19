@@ -15,8 +15,8 @@ function AfterMeme() {
         alt="A famous Egyptian character Mohamed Henedy Holding a paper and writting"
         content={
           <>
-            <p>لازم امخمخ علشان اطلعلكم شغل نضيف</p>
-            <p>يتم الكتابة</p>
+            <p>Brain's working overdrive to provide the goods.</p>
+            <p>{`Currently writing :)`}</p>
           </>
         }
       />

@@ -15,8 +15,8 @@ function BeforeMeme() {
         alt="A famous Egyptian character Mohamed Henedy with a disgusted face"
         content={
           <>
-            <p>عاوز اية يسطا؟</p>
-            <p>اجيبلك الحيوانات المنوية بتاعت القصه؟</p>
+            <p>What more?!</p>
+            <p>Want the sperm that birthed the novel?!</p>
           </>
         }
       />
