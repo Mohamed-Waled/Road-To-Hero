@@ -1,5 +1,6 @@
 "use client";
 
+import { updateReadChapters } from "@/utils/helperFunctions";
 import {
   read_story_arcs,
   read_story_chapters,
@@ -21,182 +22,126 @@ function NextButton({
   arcs: story_chapters[];
   type: string;
 }) {
-  let storyType = type.split("-")[0];
-
   function addingToLocalStorage() {
+    let storyType = type.split("-")[0];
+
     if (typeof window !== "undefined") {
-      if (localStorage.getItem(`${storyType}-chapters`) === null) {
-        let readStoryChapters: read_story_arcs[] = [];
-        let chapters: read_story_chapters[] = [];
-        let parts: read_story_part[] = [];
+      let readStoryChapters: read_story_arcs[] = JSON.parse(
+        localStorage.getItem(`${storyType}-chapters`) ?? "[]",
+      );
 
-        parts.push({
-          part: partNumber,
-        });
+      // if (localStorage.getItem(`${storyType}-chapters`) === null) {
+      //   let readStoryChapters: read_story_arcs[] = [];
+      //   let chapters: read_story_chapters[] = [];
+      //   let parts: read_story_part[] = [];
 
-        chapters.push({
-          chapter: chapterNumber,
-          parts: parts,
-        });
+      //   parts.push({
+      //     part: partNumber,
+      //   });
 
-        readStoryChapters.push({
-          arc: arcNumber,
-          chapters: chapters,
-        });
+      //   chapters.push({
+      //     chapter: chapterNumber,
+      //     parts: parts,
+      //   });
 
-        localStorage.setItem(
-          `${type.split("-")[0]}-chapters`,
-          JSON.stringify(readStoryChapters),
-        );
-      } else if (localStorage.getItem(`${storyType}-chapters`) !== null) {
-        let readStoryChapters: read_story_arcs[] = JSON.parse(
-          localStorage.getItem(`${storyType}-chapters`) ?? "",
-        );
+      //   readStoryChapters.push({
+      //     arc: arcNumber,
+      //     chapters: chapters,
+      //   });
 
-        // readStoryChapters.forEach((arc) => {
-        //   if (arc.arc === arcNumber) {
-        //     arc.chapters.forEach((chapter) => {
-        //       if (chapter.chapter === chapterNumber) {
-        //         chapter.parts.forEach((part) => {
-        //           if (part.part === partNumber) {
-        //             console.log("Already read");
-        //             return;
-        //           }
-        //         });
-        //       }
-        //     });
-        //   }
-        // });
+      //   localStorage.setItem(
+      //     `${type.split("-")[0]}-chapters`,
+      //     JSON.stringify(readStoryChapters),
+      //   );
+      // } else if (localStorage.getItem(`${storyType}-chapters`) !== null) {
+      //   let arcFound = false;
+      //   let chapterFound = false;
+      //   let partFound = false;
 
-        // readStoryChapters.forEach((arc) => {
-        //   if (arc.arc !== arcNumber) {
-        //     readStoryChapters.push({
-        //       arc: arcNumber,
-        //       chapters: [
-        //         {
-        //           chapter: chapterNumber,
-        //           parts: [{ part: partNumber }],
-        //         },
-        //       ],
-        //     });
-        //   } else if (arc.arc === arcNumber) {
-        //     arc.chapters.forEach((chapter) => {
-        //       if (chapter.chapter !== chapterNumber) {
-        //         readStoryChapters[arcNumber - 1].chapters.push({
-        //           chapter: chapterNumber,
-        //           parts: [{ part: partNumber }],
-        //         });
-        //       } else if (chapter.chapter === chapterNumber) {
-        //         chapter.parts.forEach((part) => {
-        //           if (part.part !== partNumber) {
-        //             readStoryChapters[arcNumber - 1].chapters[
-        //               chapterNumber - 1
-        //             ].parts.push({
-        //               part: partNumber,
-        //             });
-        //           } else if (part.part === partNumber) {
-        //             console.log("Already read");
-        //             return;
-        //           }
-        //         });
-        //       }
-        //     });
-        //   }
-        // });
+      //   for (const arc of readStoryChapters) {
+      //     if (arc.hasOwnProperty("arc") && arc.arc === arcNumber) {
+      //       arcFound = true;
+      //       for (const chapter of arc.chapters) {
+      //         if (
+      //           chapter.hasOwnProperty("chapter") &&
+      //           chapter.chapter === chapterNumber
+      //         ) {
+      //           chapterFound = true;
+      //           for (const part of chapter.parts) {
+      //             if (part.hasOwnProperty("part") && part.part === partNumber) {
+      //               partFound = true;
+      //               console.log("Already read");
+      //             } else {
+      //               partFound = false;
+      //             }
+      //           }
+      //         } else {
+      //           chapterFound = false;
+      //         }
+      //       }
+      //     } else {
+      //       arcFound = false;
+      //     }
+      //   }
 
-        for (let i = 0; i < readStoryChapters.length; i++) {
-          if (readStoryChapters[i].arc === arcNumber) {
-            for (let j = 0; j < readStoryChapters[i].chapters.length; j++) {
-              if (readStoryChapters[i].chapters[j].chapter === chapterNumber) {
-                for (
-                  let k = 0;
-                  k < readStoryChapters[i].chapters[j].parts.length;
-                  k++
-                ) {
-                  if (
-                    readStoryChapters[i].chapters[j].parts[k].part ===
-                    partNumber
-                  ) {
-                    console.log("Already read");
-                    // return;
-                  } else if (
-                    readStoryChapters[i].chapters[j].parts[k].part !==
-                    partNumber
-                  ) {
-                    readStoryChapters[i].chapters[j].parts.push({
-                      part: partNumber,
-                    });
-                    break;
-                  }
-                }
-              } else if (
-                readStoryChapters[i].chapters[j].chapter !== chapterNumber
-              ) {
-                readStoryChapters[i].chapters.push({
-                  chapter: chapterNumber,
-                  parts: [{ part: partNumber }],
-                });
-                break;
-              } else if (readStoryChapters[i].arc !== arcNumber) {
-                readStoryChapters.push({
-                  arc: arcNumber,
-                  chapters: [
-                    {
-                      chapter: chapterNumber,
-                      parts: [{ part: partNumber }],
-                    },
-                  ],
-                });
-                break;
-              }
-            }
-          }
-        }
+      //   if (arcFound && chapterFound && partFound) {
+      //     console.log("Already read");
+      //     return;
+      //   }
 
-        // readStoryChapters.forEach((arc) => {
-        //   if (arc.arc === arcNumber) {
-        //     arc.chapters.forEach((chapter) => {
-        //       if (chapter.chapter === chapterNumber) {
-        //         chapter.parts.forEach((part) => {
-        //           if (part.part === partNumber) {
-        //             console.log("Already read");
-        //             return;
-        //           } else if (part.part !== partNumber) {
-        //             readStoryChapters[arcNumber - 1].chapters[
-        //               chapterNumber - 1
-        //             ].parts.push({
-        //               part: partNumber,
-        //             });
-        //           }
-        //           return;
-        //         });
-        //       } else if (chapter.chapter !== chapterNumber) {
-        //         readStoryChapters[arcNumber - 1].chapters.push({
-        //           chapter: chapterNumber,
-        //           parts: [{ part: partNumber }],
-        //         });
-        //       }
-        //       return;
-        //     });
-        //   } else if (arc.arc !== arcNumber) {
-        //     readStoryChapters.push({
-        //       arc: arcNumber,
-        //       chapters: [
-        //         {
-        //           chapter: chapterNumber,
-        //           parts: [{ part: partNumber }],
-        //         },
-        //       ],
-        //     });
-        //   }
-        //   return;
-        // });
+      //   if (!arcFound) {
+      //     let chapters: read_story_chapters[] = [];
+      //     let parts: read_story_part[] = [];
+      //     parts.push({
+      //       part: partNumber,
+      //     });
+      //     chapters.push({
+      //       chapter: chapterNumber,
+      //       parts: parts,
+      //     });
+      //     readStoryChapters.push({
+      //       arc: arcNumber,
+      //       chapters: chapters,
+      //     });
+      //   } else {
+      //     if (!chapterFound) {
+      //       let parts: read_story_part[] = [];
+      //       parts.push({
+      //         part: partNumber,
+      //       });
+      //       readStoryChapters[arcNumber - 1].chapters.push({
+      //         chapter: chapterNumber,
+      //         parts: parts,
+      //       });
+      //     } else {
+      //       if (!partFound) {
+      //         readStoryChapters[arcNumber - 1].chapters[
+      //           chapterNumber - 1
+      //         ].parts.push({
+      //           part: partNumber,
+      //         });
+      //       } else {
+      //         console.log("Already read");
+      //       }
+      //     }
+      //   }
 
-        localStorage.setItem(
-          `${type.split("-")[0]}-chapters`,
-          JSON.stringify(readStoryChapters),
-        );
-      }
+      //   localStorage.setItem(
+      //     `${type.split("-")[0]}-chapters`,
+      //     JSON.stringify(readStoryChapters),
+      //   );
+      // }
+
+      updateReadChapters(
+        readStoryChapters,
+        arcNumber,
+        chapterNumber,
+        partNumber,
+      );
+      localStorage.setItem(
+        `${storyType}-chapters`,
+        JSON.stringify(readStoryChapters),
+      );
     }
   }
 
