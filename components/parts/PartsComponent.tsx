@@ -24,6 +24,22 @@ async function PartsComponent({
 }) {
   const arcs = await getArcs(type);
 
+  let chapterIndex: number = 0;
+
+  for (let i = 0; i < arcs[arcNumber - 1].chapters.length; i++) {
+    let chapterNumberCheck =
+      arcs[arcNumber - 1].chapters[i].chapter.split(" ")[1] !== undefined
+        ? arcs[arcNumber - 1].chapters[i].chapter.split(" ")[1]
+        : arcs[arcNumber - 1].chapters[i].chapter[
+            arcs[arcNumber - 1].chapters[i].chapter.length - 1
+          ];
+
+    if (chapterNumberCheck === chapterNumber.toString()) {
+      chapterIndex = arcs[arcNumber - 1].chapters[i].chapterIndex;
+      break;
+    }
+  }
+
   if (
     typeof arcNumber !== "number" ||
     arcNumber > arcs.length ||
@@ -34,12 +50,33 @@ async function PartsComponent({
     chapterNumber < 1 ||
     isNaN(chapterNumber) ||
     typeof partNumber !== "number" ||
-    partNumber > arcs[arcNumber - 1].chapters[chapterNumber - 1].parts.length ||
+    partNumber > arcs[arcNumber - 1].chapters[chapterIndex].parts.length ||
     partNumber < 1 ||
     isNaN(partNumber)
   ) {
     notFound();
   }
+
+  // let lastChapterAtArcNumber =
+  //   arcs[arcNumber - 2].chapters[
+  //     arcs[arcNumber - 2].chapters.length - 1
+  //   ].chapter.split(" ")[1] !== undefined
+  //     ? arcs[arcNumber - 2].chapters[
+  //         arcs[arcNumber - 2].chapters.length - 1
+  //       ].chapter.split(" ")[1]
+  //     : arcs[arcNumber - 2].chapters[arcs[arcNumber - 2].chapters.length - 1]
+  //         .chapter[
+  //         arcs[arcNumber - 2].chapters[arcs[arcNumber - 2].chapters.length - 1]
+  //           .chapter.length - 1
+  //       ];
+
+  // let lastChapterNumber =
+  //   arcs[arcNumber - 1].chapters[chapterIndex - 1].chapter.split(" ")[1] !==
+  //   undefined
+  //     ? arcs[arcNumber - 1].chapters[chapterIndex - 1].chapter.split(" ")[1]
+  //     : arcs[arcNumber - 1].chapters[chapterIndex - 1].chapter[
+  //         arcs[arcNumber - 1].chapters[chapterIndex - 1].chapter.length - 1
+  //       ];
 
   return (
     <>
@@ -47,36 +84,40 @@ async function PartsComponent({
       <div className="w-full">
         <div className="px-4 py-6">
           <h1 className="text-2xl text-gray-200">
-            {arcs[arcNumber - 1].chapters[chapterNumber - 1].parts[
-              partNumber - 1
-            ].chapterName
-              ? arcs[arcNumber - 1].chapters[chapterNumber - 1].parts[
-                  partNumber - 1
-                ].chapterName
+            {arcs[arcNumber - 1].chapters[chapterIndex].parts[partNumber - 1]
+              .chapterName
+              ? arcs[arcNumber - 1].chapters[chapterIndex].parts[partNumber - 1]
+                  .chapterName
               : `Chapter ${chapterNumber} - Part ${partNumber}`}
           </h1>
           <div className="mt-6 px-4 py-0 text-gray-200">
-            {typeof arcs[arcNumber - 1].chapters[chapterNumber - 1].parts[
+            {typeof arcs[arcNumber - 1].chapters[chapterIndex].parts[
               partNumber - 1
             ].content === "string"
-              ? arcs[arcNumber - 1].chapters[chapterNumber - 1].parts[
+              ? arcs[arcNumber - 1].chapters[chapterIndex].parts[
                   partNumber - 1
                 ].content
                   .split(" ,")
                   .map((lines: string, index: number) => {
                     return (
-                      <p key={`${lines} - ${index}`} className="mb-2">
+                      <p
+                        key={`${lines} - ${index}`}
+                        className="mt-5 leading-6 tracking-wide lg:text-lg"
+                      >
                         {lines}
                       </p>
                     );
                   })
-              : arcs[arcNumber - 1].chapters[chapterNumber - 1].parts[
+              : arcs[arcNumber - 1].chapters[chapterIndex].parts[
                   partNumber - 1
                 ].content
                   .flat()
                   .map((lines: string, index: number) => {
                     return (
-                      <p key={`${lines} - ${index}`} className="mb-2">
+                      <p
+                        key={`${lines} - ${index}`}
+                        className="mt-5 leading-6 tracking-wide lg:text-lg"
+                      >
                         {lines}
                       </p>
                     );
@@ -88,9 +129,35 @@ async function PartsComponent({
                 isFirst(arcNumber, chapterNumber, partNumber)
                   ? `/before-the-start`
                   : isFirstAtArc(chapterNumber, partNumber)
-                    ? `/${type.split("-")[0]}-chapters/arc-${arcNumber - 1}/chapter-${arcs[arcNumber - 2].chapters.length}/part-${arcs[arcNumber - 2].chapters[arcs[arcNumber - 2].chapters.length - 1].parts.length}`
+                    ? `/${type.split("-")[0]}-chapters/arc-${arcNumber - 1}/chapter-${
+                        arcs[arcNumber - 2].chapters[
+                          arcs[arcNumber - 2].chapters.length - 1
+                        ].chapter.split(" ")[1] !== undefined
+                          ? arcs[arcNumber - 2].chapters[
+                              arcs[arcNumber - 2].chapters.length - 1
+                            ].chapter.split(" ")[1]
+                          : arcs[arcNumber - 2].chapters[
+                              arcs[arcNumber - 2].chapters.length - 1
+                            ].chapter[
+                              arcs[arcNumber - 2].chapters[
+                                arcs[arcNumber - 2].chapters.length - 1
+                              ].chapter.length - 1
+                            ]
+                      }/part-${arcs[arcNumber - 2].chapters[arcs[arcNumber - 2].chapters.length - 1].parts.length}`
                     : isFirstAtChapter(partNumber)
-                      ? `/${type.split("-")[0]}-chapters/arc-${arcNumber}/chapter-${chapterNumber - 1}/part-${arcs[arcNumber - 1].chapters[chapterNumber - 2].parts.length}`
+                      ? `/${type.split("-")[0]}-chapters/arc-${arcNumber}/chapter-${
+                          arcs[arcNumber - 1].chapters[
+                            chapterIndex - 1
+                          ].chapter.split(" ")[1] !== undefined
+                            ? arcs[arcNumber - 1].chapters[
+                                chapterIndex - 1
+                              ].chapter.split(" ")[1]
+                            : arcs[arcNumber - 1].chapters[chapterIndex - 1]
+                                .chapter[
+                                arcs[arcNumber - 1].chapters[chapterIndex - 1]
+                                  .chapter.length - 1
+                              ]
+                        }/part-${arcs[arcNumber - 1].chapters[chapterIndex - 1].parts.length}`
                       : `/${type.split("-")[0]}-chapters/arc-${arcNumber}/chapter-${chapterNumber}/part-${partNumber - 1}`
               }
               className="rounded-lg bg-gray-700 px-8 py-2 text-gray-200 shadow-lg"
@@ -103,6 +170,7 @@ async function PartsComponent({
               partNumber={partNumber}
               arcs={arcs}
               type={type}
+              chapterIndex={chapterIndex}
             />
           </div>
           <div className="mt-6 rounded-lg bg-gray-700 p-4 text-gray-300 shadow-lg">
@@ -110,7 +178,7 @@ async function PartsComponent({
               Written by:{" "}
               <span className="text-lg text-white">
                 {
-                  arcs[arcNumber - 1].chapters[chapterNumber - 1].parts[
+                  arcs[arcNumber - 1].chapters[chapterIndex].parts[
                     partNumber - 1
                   ].author
                 }
@@ -120,7 +188,7 @@ async function PartsComponent({
               Published at:{" "}
               <span className="text-lg text-white">
                 {getTimeAndDate(
-                  arcs[arcNumber - 1].chapters[chapterNumber - 1].parts[
+                  arcs[arcNumber - 1].chapters[chapterIndex].parts[
                     partNumber - 1
                   ].createdAt,
                 )}

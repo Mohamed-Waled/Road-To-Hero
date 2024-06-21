@@ -15,12 +15,15 @@ export type story_chapter = {
 };
 
 export type story_chapters = {
+  arcIndex: number;
   arc: string;
   chapters: [
     {
+      chapterIndex: number;
       chapter: string;
       parts: [
         {
+          partIndex: number;
           part: string;
           chapterName: string;
           content: string[] | string;
@@ -34,9 +37,11 @@ export type story_chapters = {
 };
 
 export type chapters = {
+  chapterIndex: number;
   chapter: string;
   parts: [
     {
+      partIndex: number;
       part: string;
       chapterName: string;
       content: string[];
@@ -48,6 +53,7 @@ export type chapters = {
 };
 
 export type parts = {
+  partIndex: number;
   part: string;
   chapterName: string;
   content: string[];

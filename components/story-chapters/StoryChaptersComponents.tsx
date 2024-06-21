@@ -16,13 +16,17 @@ async function StoryChaptersComponents({ type }: { type: string }) {
       <div className="w-full">
         <div className="flex flex-wrap items-center justify-start gap-6 p-6">
           {arcs.map((arc: story_chapters, index: number) => {
+            let arcNumber =
+              arc.arc.split(" ")[1] !== undefined
+                ? arc.arc.split(" ")[1]
+                : arc.arc[arc.arc.length - 1];
             return (
               <Link
                 key={`${arc.arc} - ${index}`}
-                href={`/${type.split("-")[0]}-chapters/arc-${index + 1}`}
+                href={`/${type.split("-")[0]}-chapters/arc-${arcNumber}`}
                 className="relative flex h-36 w-full flex-col items-center justify-between rounded-lg bg-gray-700 p-4 text-gray-200 shadow-xl sm:w-[calc(50%-12px)] xl:w-[calc((100%/3)-16px)]"
               >
-                <h2 className="p-7 text-2xl">{arc.arc}</h2>
+                <h2 className="p-7 text-2xl">{`Arc ${arcNumber}`}</h2>
                 <div className="flex w-full items-center justify-center p-1">
                   <IoBook className="mr-2 text-xl text-discord" />
                   <p>{`Chapters: ${arc.chapters.length}`}</p>
