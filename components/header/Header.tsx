@@ -6,6 +6,7 @@ import { FaBookBookmark, FaBookMedical } from "react-icons/fa6";
 import { FaDiscord } from "react-icons/fa";
 import Link from "next/link";
 
+import ResetProgress from "../reset-progress/ResetProgress";
 import useCloseOutSide from "@/hooks/useCloseOutSide";
 import Logo from "../logo/Logo";
 
@@ -36,15 +37,17 @@ function Header() {
             )}
           </div>
           <Logo />
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-discord/50 shadow-lg">
-            <FaDiscord className="text-2xl text-white" />
-          </div>
+          <Link href="https://discord.com/invite/D9ME9qyn9w" target="_blank">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-discord/50 shadow-lg">
+              <FaDiscord className="text-2xl text-white" />
+            </div>
+          </Link>
         </div>
       </header>
       <nav
         className={`fixed h-[calc(100vh-80px)] w-7/12 bg-gray-900 shadow-xl sm:w-5/12 md:w-4/12 lg:w-72 ${
           isOpen ? "left-0" : "-left-full"
-        } top-[80px] rounded-r-3xl p-6 transition-all duration-500 lg:left-5 lg:top-1/2 lg:h-[calc(100vh-140px)] lg:-translate-y-[calc(50%-50px)] lg:rounded-3xl`}
+        } top-[80px] flex flex-col justify-between rounded-r-3xl p-6 transition-all duration-500 lg:left-5 lg:top-1/2 lg:h-[calc(100vh-140px)] lg:-translate-y-[calc(50%-50px)] lg:rounded-3xl`}
       >
         <ul>
           <li
@@ -72,6 +75,9 @@ function Header() {
             </Link>
           </li>
         </ul>
+        <div>
+          <ResetProgress />
+        </div>
       </nav>
     </>
   );

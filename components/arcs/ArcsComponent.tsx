@@ -2,7 +2,7 @@ import { FaChartPie } from "react-icons/fa";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-import { getArcs } from "@/lib/fetchers";
+import { getArcs, getChapters } from "@/lib/fetchers";
 import { chapters } from "@/utils/types";
 import BreadCrumb from "@/helper_components/bread-crumb/BreadCrumb";
 import { getCurrentTimeStamp } from "@/utils/helperFunctions";
@@ -16,67 +16,51 @@ async function ArcsComponent({
   arcNumber: number;
 }) {
   const arcs = await getArcs(type);
+  const isArc = arcs.find((arc) => Number(arc.arc.split(" ")[1]) === arcNumber);
 
-  if (
-    typeof arcNumber !== "number" ||
-    arcNumber > arcs.length ||
-    arcNumber < 1 ||
-    isNaN(arcNumber)
-  ) {
+  if (!isArc) {
     notFound();
   }
+
+  const chapters = await getChapters(type, arcNumber);
 
   return (
     <>
       <BreadCrumb />
       <div className="w-full">
         <div className="flex flex-wrap items-center justify-start gap-6 p-6">
-          {arcs[arcNumber - 1].chapters.map(
-            (chapters: chapters, index: number) => {
-              let chapterNumber =
-                chapters.chapter.split(" ")[1] !== undefined
-                  ? chapters.chapter.split(" ")[1]
-                  : chapters.chapter[chapters.chapter.length - 1];
-              return (
-                <Link
-                  key={`${chapters.chapter} - ${index}`}
-                  href={
-                    chapters.parts.length < 2
-                      ? `/${type.split("-")[0]}-chapters/arc-${arcNumber}/chapter-${
-                          chapterNumber
-                        }/part-1`
-                      : `/${type.split("-")[0]}-chapters/arc-${arcNumber}/chapter-${chapterNumber}`
-                  }
-                  className="relative flex h-36 w-full flex-col items-center justify-between rounded-lg bg-gray-700 p-4 text-gray-200 shadow-xl sm:w-[calc(50%-12px)] xl:w-[calc((100%/3)-16px)]"
-                >
-                  <h2 className="pt-2 text-center text-xl">
-                    {chapters.parts[0].chapterName
-                      ? `Chapter ${chapterNumber} - ${chapters.parts[0].chapterName}`
-                      : `Chapter ${chapterNumber}`}
-                  </h2>
-                  <div className="flex w-full items-center justify-center p-1">
-                    <FaChartPie className="mr-2 text-xl text-discord" />
-                    <p>{`Parts: ${chapters.parts.length}`}</p>
-                  </div>
-                  {getCurrentTimeStamp() -
-                    chapters.parts[chapters.parts.length - 1].createdAt <=
-                    604800000 && (
-                    <span className="absolute bottom-3 left-3 rounded-xl bg-discord/50 px-2 py-1 text-sm text-white">
-                      New
-                    </span>
-                  )}
-                  <span className="absolute right-[1rem] top-[44%] rounded-xl">
-                    <Read
-                      arcNumber={arcNumber}
-                      chapterNumber={index + 1}
-                      totalParts={chapters.parts.length}
-                      type={type}
-                    />
+          {chapters.map((chapters: chapters) => {
+            return (
+              <Link
+                key={`${chapters.chapter} - ${chapters.chapterIndex}`}
+                href={`/${type.split("-")[0]}-chapters${chapters.href}`}
+                className="relative flex h-36 w-full flex-col items-center justify-between rounded-lg bg-gray-700 p-4 text-gray-200 shadow-xl sm:w-[calc(50%-12px)] xl:w-[calc((100%/3)-16px)]"
+              >
+                <h2 className="pt-2 text-center text-xl">
+                  {chapters.chapterName
+                    ? `${chapters.chapter} - ${chapters.chapterName}`
+                    : `${chapters.chapter}`}
+                </h2>
+                <div className="flex w-full items-center justify-center p-1">
+                  <FaChartPie className="mr-2 text-xl text-discord" />
+                  <p>{`Parts: ${chapters.numberOfParts}`}</p>
+                </div>
+                {getCurrentTimeStamp() - chapters.createdAt <= 604800000 && (
+                  <span className="absolute bottom-3 left-3 rounded-xl bg-discord/50 px-2 py-1 text-sm text-white">
+                    New
                   </span>
-                </Link>
-              );
-            },
-          )}
+                )}
+                <span className="absolute right-[1rem] top-[44%] rounded-xl">
+                  <Read
+                    arcNumber={arcNumber}
+                    chapterNumber={Number(chapters.chapter.split(" ")[1])}
+                    totalParts={chapters.numberOfParts}
+                    type={type}
+                  />
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </>

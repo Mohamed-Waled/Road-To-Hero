@@ -25,7 +25,7 @@ async function HomeComponent() {
           and his wonderful editor{" "}
           <span className="text-2xl tracking-wider text-gray-100">
             Tree Topper
-          </span>{" "}
+          </span>
           .
         </p>
         <p className="text-center text-lg tracking-wide text-gray-300 lg:text-xl">

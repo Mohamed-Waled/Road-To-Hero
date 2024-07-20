@@ -1,14 +1,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { MdNavigateBefore } from "react-icons/md";
 
 import BreadCrumb from "@/helper_components/bread-crumb/BreadCrumb";
-import {
-  getTimeAndDate,
-  isFirst,
-  isFirstAtArc,
-  isFirstAtChapter,
-} from "@/utils/helperFunctions";
-import { getArcs } from "@/lib/fetchers";
+import { getTimeAndDate } from "@/utils/helperFunctions";
+import { getArcs, getChapters, getPart } from "@/lib/fetchers";
 import NextButton from "./next-button/NextButton";
 
 async function PartsComponent({
@@ -24,59 +20,33 @@ async function PartsComponent({
 }) {
   const arcs = await getArcs(type);
 
-  let chapterIndex: number = 0;
+  const isArc = arcs.find((arc) => Number(arc.arc.split(" ")[1]) === arcNumber);
 
-  for (let i = 0; i < arcs[arcNumber - 1].chapters.length; i++) {
-    let chapterNumberCheck =
-      arcs[arcNumber - 1].chapters[i].chapter.split(" ")[1] !== undefined
-        ? arcs[arcNumber - 1].chapters[i].chapter.split(" ")[1]
-        : arcs[arcNumber - 1].chapters[i].chapter[
-            arcs[arcNumber - 1].chapters[i].chapter.length - 1
-          ];
-
-    if (chapterNumberCheck === chapterNumber.toString()) {
-      chapterIndex = arcs[arcNumber - 1].chapters[i].chapterIndex;
-      break;
-    }
-  }
-
-  if (
-    typeof arcNumber !== "number" ||
-    arcNumber > arcs.length ||
-    arcNumber < 1 ||
-    isNaN(arcNumber) ||
-    typeof chapterNumber !== "number" ||
-    chapterNumber > arcs[arcNumber - 1].chapters.length ||
-    chapterNumber < 1 ||
-    isNaN(chapterNumber) ||
-    typeof partNumber !== "number" ||
-    partNumber > arcs[arcNumber - 1].chapters[chapterIndex].parts.length ||
-    partNumber < 1 ||
-    isNaN(partNumber)
-  ) {
+  if (!isArc) {
     notFound();
   }
 
-  // let lastChapterAtArcNumber =
-  //   arcs[arcNumber - 2].chapters[
-  //     arcs[arcNumber - 2].chapters.length - 1
-  //   ].chapter.split(" ")[1] !== undefined
-  //     ? arcs[arcNumber - 2].chapters[
-  //         arcs[arcNumber - 2].chapters.length - 1
-  //       ].chapter.split(" ")[1]
-  //     : arcs[arcNumber - 2].chapters[arcs[arcNumber - 2].chapters.length - 1]
-  //         .chapter[
-  //         arcs[arcNumber - 2].chapters[arcs[arcNumber - 2].chapters.length - 1]
-  //           .chapter.length - 1
-  //       ];
+  const chapters = await getChapters(type, arcNumber);
 
-  // let lastChapterNumber =
-  //   arcs[arcNumber - 1].chapters[chapterIndex - 1].chapter.split(" ")[1] !==
-  //   undefined
-  //     ? arcs[arcNumber - 1].chapters[chapterIndex - 1].chapter.split(" ")[1]
-  //     : arcs[arcNumber - 1].chapters[chapterIndex - 1].chapter[
-  //         arcs[arcNumber - 1].chapters[chapterIndex - 1].chapter.length - 1
-  //       ];
+  const isChapter = chapters.find(
+    (chapter) => Number(chapter.chapter.split(" ")[1]) === chapterNumber,
+  );
+
+  if (!isChapter) {
+    notFound();
+  }
+
+  const part = await getPart(type, arcNumber, chapterNumber, partNumber);
+
+  if (Object.keys(part).length === 0) {
+    notFound();
+  }
+
+  const isPart = Number(part.part.split(" ")[1]) === partNumber;
+
+  if (!isPart) {
+    notFound();
+  }
 
   return (
     <>
@@ -84,114 +54,78 @@ async function PartsComponent({
       <div className="w-full">
         <div className="px-4 py-6">
           <h1 className="text-2xl text-gray-200">
-            {arcs[arcNumber - 1].chapters[chapterIndex].parts[partNumber - 1]
-              .chapterName
-              ? arcs[arcNumber - 1].chapters[chapterIndex].parts[partNumber - 1]
-                  .chapterName
-              : `Chapter ${chapterNumber} - Part ${partNumber}`}
+            {part.chapterName
+              ? part.chapterName
+              : `Chapter ${chapterNumber} - ${part.part}`}
           </h1>
           <div className="mt-6 px-4 py-0 text-gray-200">
-            {typeof arcs[arcNumber - 1].chapters[chapterIndex].parts[
-              partNumber - 1
-            ].content === "string"
-              ? arcs[arcNumber - 1].chapters[chapterIndex].parts[
-                  partNumber - 1
-                ].content
-                  .split(" ,")
-                  .map((lines: string, index: number) => {
-                    return (
-                      <p
-                        key={`${lines} - ${index}`}
-                        className="mt-5 leading-6 tracking-wide lg:text-lg"
-                      >
-                        {lines}
-                      </p>
-                    );
-                  })
-              : arcs[arcNumber - 1].chapters[chapterIndex].parts[
-                  partNumber - 1
-                ].content
-                  .flat()
-                  .map((lines: string, index: number) => {
-                    return (
-                      <p
-                        key={`${lines} - ${index}`}
-                        className="mt-5 leading-6 tracking-wide lg:text-lg"
-                      >
-                        {lines}
-                      </p>
-                    );
-                  })}
+            {typeof part.content === "string"
+              ? part.content.split(" ,").map((line: string, index: number) => {
+                  return (
+                    <p
+                      key={`${line} - ${index}`}
+                      className="mt-5 leading-6 tracking-wide lg:text-lg"
+                    >
+                      {line}
+                    </p>
+                  );
+                })
+              : part.content.flat().map((line: string, index: number) => {
+                  let spacing: boolean = true;
+                  if (typeof part.content !== "string" && index > 0) {
+                    if (part.content.flat()[index - 1] === "") {
+                      spacing = false;
+                    }
+                  }
+                  return (
+                    <>
+                      {line ? (
+                        <p
+                          key={`${line} - ${index}`}
+                          className={`${spacing ? "mt-5" : "mt-2"} leading-6 tracking-wide lg:text-lg`}
+                        >
+                          {line}
+                        </p>
+                      ) : (
+                        <br key={`${line} - ${index}`} />
+                      )}
+                    </>
+                  );
+                })}
           </div>
           <div className="mt-4 flex items-center justify-between p-2">
             <Link
               href={
-                isFirst(arcNumber, chapterNumber, partNumber)
-                  ? `/before-the-start`
-                  : isFirstAtArc(chapterNumber, partNumber)
-                    ? `/${type.split("-")[0]}-chapters/arc-${arcNumber - 1}/chapter-${
-                        arcs[arcNumber - 2].chapters[
-                          arcs[arcNumber - 2].chapters.length - 1
-                        ].chapter.split(" ")[1] !== undefined
-                          ? arcs[arcNumber - 2].chapters[
-                              arcs[arcNumber - 2].chapters.length - 1
-                            ].chapter.split(" ")[1]
-                          : arcs[arcNumber - 2].chapters[
-                              arcs[arcNumber - 2].chapters.length - 1
-                            ].chapter[
-                              arcs[arcNumber - 2].chapters[
-                                arcs[arcNumber - 2].chapters.length - 1
-                              ].chapter.length - 1
-                            ]
-                      }/part-${arcs[arcNumber - 2].chapters[arcs[arcNumber - 2].chapters.length - 1].parts.length}`
-                    : isFirstAtChapter(partNumber)
-                      ? `/${type.split("-")[0]}-chapters/arc-${arcNumber}/chapter-${
-                          arcs[arcNumber - 1].chapters[
-                            chapterIndex - 1
-                          ].chapter.split(" ")[1] !== undefined
-                            ? arcs[arcNumber - 1].chapters[
-                                chapterIndex - 1
-                              ].chapter.split(" ")[1]
-                            : arcs[arcNumber - 1].chapters[chapterIndex - 1]
-                                .chapter[
-                                arcs[arcNumber - 1].chapters[chapterIndex - 1]
-                                  .chapter.length - 1
-                              ]
-                        }/part-${arcs[arcNumber - 1].chapters[chapterIndex - 1].parts.length}`
-                      : `/${type.split("-")[0]}-chapters/arc-${arcNumber}/chapter-${chapterNumber}/part-${partNumber - 1}`
+                part.isFirst
+                  ? `${part.backHref}`
+                  : `/${type.split("-")[0]}-chapters${part.backHref}`
               }
-              className="rounded-lg bg-gray-700 px-8 py-2 text-gray-200 shadow-lg"
+              className="group flex items-center justify-center gap-1 rounded-lg bg-gray-700 px-8 py-2 text-gray-200 shadow-lg"
             >
+              <MdNavigateBefore className="transition-all duration-300 group-hover:-translate-x-1" />
               Back
             </Link>
             <NextButton
               arcNumber={arcNumber}
               chapterNumber={chapterNumber}
               partNumber={partNumber}
-              arcs={arcs}
               type={type}
-              chapterIndex={chapterIndex}
+              href={
+                part.isLast
+                  ? `${part.nextHref}`
+                  : `/${type.split("-")[0]}-chapters${part.nextHref}`
+              }
             />
           </div>
           <div className="mt-6 rounded-lg bg-gray-700 p-4 text-gray-300 shadow-lg">
             <p>
               Written by:{" "}
-              <span className="text-lg text-white">
-                {
-                  arcs[arcNumber - 1].chapters[chapterIndex].parts[
-                    partNumber - 1
-                  ].author
-                }
-              </span>
+              <span className="text-lg text-white">{part.author}</span>
             </p>
             <p>
               Published at:{" "}
               <span className="text-lg text-white">
-                {getTimeAndDate(
-                  arcs[arcNumber - 1].chapters[chapterIndex].parts[
-                    partNumber - 1
-                  ].createdAt,
-                )}
+                {getTimeAndDate(part.createdAt)}
               </span>
             </p>
           </div>

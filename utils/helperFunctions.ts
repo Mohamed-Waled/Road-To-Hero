@@ -24,22 +24,6 @@ export function capitalizeWordsRegex(text: string) {
   return text.replace(/(^\w|\s\w)/g, (match) => match.toUpperCase());
 }
 
-export function isFirst(
-  arcNumber: number,
-  chapterNumber: number,
-  partNumber: number,
-) {
-  return arcNumber === 1 && chapterNumber === 1 && partNumber === 1;
-}
-
-export function isFirstAtArc(chapterNumber: number, partNumber: number) {
-  return chapterNumber === 1 && partNumber === 1;
-}
-
-export function isFirstAtChapter(partNumber: number) {
-  return partNumber === 1;
-}
-
 export function updateReadChapters(
   existingChapters: read_story_arcs[],
   arcNumber: number,

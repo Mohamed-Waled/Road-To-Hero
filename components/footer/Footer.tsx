@@ -10,7 +10,13 @@ function Footer() {
           Soft
         </Link>
       </p>
-      <p>{getCurrentYear()} All copyrights reserved by Shehab Lashen ©</p>
+      <p>
+        {getCurrentYear()} All copyrights reserved by{" "}
+        <Link href="https://x.com/ShehabLasheen1" target="_blank">
+          Shehab Lashen
+        </Link>{" "}
+        ©
+      </p>
     </footer>
   );
 }
