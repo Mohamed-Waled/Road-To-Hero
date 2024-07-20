@@ -27,7 +27,7 @@ export async function fetchNovel(
 
   try {
     const response = await fetch(
-      `http://localhost:5000/${type}-modified${queries}`,
+      `https://road-to-hero-bot.onrender.com/${type}-modified${queries}`,
       {
         method: "GET",
         headers: {
