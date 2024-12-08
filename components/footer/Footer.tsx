@@ -7,7 +7,7 @@ function Footer() {
       <p>
         Build with ♥ By{" "}
         <Link href="https://mohamedwaled.com" target="_blank">
-          Soft
+          Mohamed Waled
         </Link>
       </p>
       <p>
