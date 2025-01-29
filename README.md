@@ -25,7 +25,7 @@ An online reading platform for serialized light novels. Chapters are retrieved s
 
 ## My process
 
-## The idea
+### The idea
 
 The main idea behind this site is to make reading the **Road to Hero** novel easier. This novel was originally published on a Discord server. The author opened a server, set up a channel, and started writing his novel. I found it hard to read and keep track of what I had finished, and every time I needed to scroll through a ton of messages to find where I had stopped. So, I got an idea: why not build a Discord bot that fetches the messages (i.e., story chapters) from the channel, organizes them by removing the white spaces, and arranges them in order? Then, I could build an API to GET these chapters and put them into this application, creating a better user experience with simple tracking functionality. Voilà! An easier life for me and the readers of this novel!
 
