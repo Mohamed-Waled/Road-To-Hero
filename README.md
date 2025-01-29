@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Road to Hero
 
-## Getting Started
+An online reading platform for serialized light novels. Chapters are retrieved straight from the novel's server using a Node.js-powered Discord bot, which arranges them in an orderly and easily navigable manner. Additionally, the website has a tracking feature that lets users easily keep tabs on their progress. Ideal for people who prefer a simplified reading experience with integrated progress monitoring!
 
-First, run the development server:
+## Table of contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Overview](#overview)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [The idea](#the-idea)  
+  - [Built with](#built-with)
+- [Author](#author)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Screenshot
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![](./public/images/desktop.png)
+![](./public/images/mobile.png)
 
-## Learn More
+### Links
 
-To learn more about Next.js, take a look at the following resources:
+- Live Site URL: [Live site URL here](https://road-to-hero.vercel.app/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## My process
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## The idea
 
-## Deploy on Vercel
+The main idea behind this site is to make reading the **Road to Hero** novel easier. This novel was originally published on a Discord server. The author opened a server, set up a channel, and started writing his novel. I found it hard to read and keep track of what I had finished, and every time I needed to scroll through a ton of messages to find where I had stopped. So, I got an idea: why not build a Discord bot that fetches the messages (i.e., story chapters) from the channel, organizes them by removing the white spaces, and arranges them in order? Then, I could build an API to GET these chapters and put them into this application, creating a better user experience with simple tracking functionality. Voilà! An easier life for me and the readers of this novel!
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> [!NOTE]
+> The author of the novel is a friend of mine, so before I even started this project, I asked for his permission, and he granted it to me!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Built with
+
+- HTML5
+- React.js
+- Next.js
+- TypeScript
+- Tailwind Css
+- npx create-next-app
+- npm
+- API
+- WebStorm
+
+## Author
+
+- Linkedin - [@mohamed-waled](https://www.linkedin.com/in/mohamed-waled)
