@@ -3,20 +3,22 @@ import ArcsComponent from "@/components/arcs/ArcsComponent";
 export async function generateMetadata({
   params,
 }: {
-  params: { arc: string };
+  params: Promise<{ arc: string }>;
 }) {
+  const { arc } = await params;
   return {
-    title: `Road to Hero - Arc ${params.arc.split("-")[1]}`,
+    title: `Road to Hero - Arc ${arc.split("-")[1]}`,
     description: "Arcs",
   };
 }
 
-function Arcs({ params }: { params: { arc: string } }) {
+async function Arcs({ params }: { params: Promise<{ arc: string }> }) {
+  const { arc } = await params;
   return (
     <>
       <ArcsComponent
         type="story-chapters"
-        arcNumber={Number(params.arc.split("-")[1])}
+        arcNumber={Number(arc.split("-")[1])}
       />
     </>
   );

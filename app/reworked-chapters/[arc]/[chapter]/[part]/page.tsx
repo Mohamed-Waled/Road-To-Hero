@@ -3,26 +3,28 @@ import PartsComponent from "@/components/parts/PartsComponent";
 export async function generateMetadata({
   params,
 }: {
-  params: { arc: string; chapter: string; part: string };
+  params: Promise<{ arc: string; chapter: string; part: string }>;
 }) {
+  const { arc, chapter, part } = await params;
   return {
-    title: `Road to Hero - Reworked Arc ${params.arc.split("-")[1]} - Chapter ${params.chapter.split("-")[1]} - Part ${params.part.split("-")[1]}`,
+    title: `Road to Hero - Reworked Arc ${arc.split("-")[1]} - Chapter ${chapter.split("-")[1]} - Part ${part.split("-")[1]}`,
     description: "Parts",
   };
 }
 
-function ReworkedParts({
+async function ReworkedParts({
   params,
 }: {
-  params: { arc: string; chapter: string; part: string };
+  params: Promise<{ arc: string; chapter: string; part: string }>;
 }) {
+  const { arc, chapter, part } = await params;
   return (
     <>
       <PartsComponent
         type="reworked-story-chapters"
-        arcNumber={Number(params.arc.split("-")[1])}
-        chapterNumber={Number(params.chapter.split("-")[1])}
-        partNumber={Number(params.part.split("-")[1])}
+        arcNumber={Number(arc.split("-")[1])}
+        chapterNumber={Number(chapter.split("-")[1])}
+        partNumber={Number(part.split("-")[1])}
       />
     </>
   );
