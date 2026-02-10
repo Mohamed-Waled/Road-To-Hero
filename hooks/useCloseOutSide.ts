@@ -3,7 +3,7 @@ import { MutableRefObject, useEffect, useRef } from "react";
 function useCloseOutSide(
   handler: () => void
 ): MutableRefObject<HTMLElement | undefined> {
-  const ref = useRef<HTMLElement>();
+  const ref = useRef<HTMLElement | undefined>(undefined);
 
   useEffect(() => {
     function handleClickOutside(event: { target: any }) {
